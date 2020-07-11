@@ -13,13 +13,16 @@ function loadEnv () {
 if (process.env.NODE_ENV !== 'production') {
   loadEnv() // on production use your version control env variable
 }
+console.log(process.env)
 
 // setup the default config
 const defaultConfig = {
-  appName: 'backend-app',
-  db: process.env.DB_URI || 'mongodb://username123:password123@ds349587.mlab.com:49587/ftumj-db',
+  appName: 'hexa-backend-app',
+  db:
+    process.env.DB_URI ||
+    'mongodb://username123:password123@ds349587.mlab.com:49587/ftumj-db',
   apiPort: process.env.PORT || 3030,
-  sessionSecret: process.env.SECRET || 'lo7er!',
+  sessionSecret: process.env.SECRET || 'secret(lo7er!)',
   sessionCollection: 'sessions',
   jwt: {
     session: false,

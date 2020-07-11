@@ -4,18 +4,18 @@ const { ObjectId } = require('mongodb')
 const { createHash } = require('crypto')
 
 // Returns a predictable ObjectId based on input name
-const getObjectId = name => {
+const getObjectId = (name) => {
   const hash = createHash('sha1').update(name, 'utf8').digest('hex')
 
   return new ObjectId(hash.substring(0, 24))
 }
 
-const getObjectIds = names => {
-  return names.map(name => getObjectId(name))
+const getObjectIds = (names) => {
+  return names.map((name) => getObjectId(name))
 }
 
-const mapToEntities = names => {
-  return names.map(name => {
+const mapToEntities = (names) => {
+  return names.map((name) => {
     const id = getObjectId(name)
     return {
       id,
@@ -24,20 +24,36 @@ const mapToEntities = names => {
   })
 }
 
-const userData = {
-  _id: getObjectId('user1'),
-  role: 'admin',
-  roles: ['admin'],
-  email: 'admin@abc.com',
-  username: 'admin@abc.com',
-  firstName: 'admin',
-  lastName: 'super',
-  phone: '123',
-  password: 'Password2019',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  status: 'confirmed'
-}
+const userData = [
+  {
+    _id: getObjectId('user1'),
+    role: 'admin',
+    roles: ['admin'],
+    email: 'admin@abc.com',
+    username: 'admin@abc.com',
+    firstName: 'admin',
+    lastName: 'super',
+    phone: '123',
+    password: 'Password2020',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    status: 'confirmed'
+  },
+  {
+    _id: getObjectId('user2'),
+    role: 'user',
+    roles: ['user'],
+    email: 'user@abc.com',
+    username: 'user@abc.com',
+    firstName: 'user',
+    lastName: 'super',
+    phone: '123',
+    password: 'Password2021',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    status: 'confirmed'
+  }
+]
 
 const roleData = [
   {
@@ -107,11 +123,15 @@ async function startSeed (databaseConnected) {
   ])
 
   if (userData) {
-    await aclStore.acl.addUserRoles(userData._id.toString(), userData.role, err => {
-      if (err) {
-        throw new Error(err)
+    await aclStore.acl.addUserRoles(
+      userData._id.toString(),
+      userData.role,
+      (err) => {
+        if (err) {
+          throw new Error(err)
+        }
       }
-    })
+    )
   }
 }
 

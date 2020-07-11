@@ -12,7 +12,7 @@ const API = '/api'
 
 const sourceApi = path.resolve('./src/api')
 
-export default app => {
+export default (app) => {
   const { acl } = aclStore
 
   /**
@@ -29,7 +29,7 @@ export default app => {
   for (let i = 0; i < modules.length; i++) {
     let directoryName = modules[i]
     const module = require(path.resolve('./src/api/' + directoryName))
-    pathModule = [...pathModule, ('./src/api/' + directoryName + '/index.js')]
+    pathModule = [...pathModule, './src/api/' + directoryName + '/index.js']
     app.use(API, module.default(Router()))
   }
   console.log(pathModule)
@@ -37,7 +37,7 @@ export default app => {
     definition: {
       openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')
       info: {
-        title: 'Nemo', // Title (required)
+        title: 'Hexa App', // Title (required)
         version: '1.0.0', // Version (required)
         description: "Documentation of API's",
         contact: {
@@ -45,7 +45,8 @@ export default app => {
         },
         license: {
           name: 'LICENSE',
-          url: 'https://github.com/arrlancore/nemo' }
+          url: 'https://github.com/arrlancore/hexa-app-backend'
+        }
       }
     },
     servers: [
@@ -73,7 +74,9 @@ export default app => {
   // app.all('*', auth.authenticate(), (req, res, next) => next())
 
   // Example endpoint only available for 'admin' role
-  app.get(`${API}/adminonly`, acl.middleware(), (req, res) => res.sendStatus(200))
+  app.get(`${API}/adminonly`, acl.middleware(), (req, res) =>
+    res.sendStatus(200)
+  )
 
   // Example protected endpoint
   app.get(`${API}/protected`, (req, res) => res.sendStatus(200))
