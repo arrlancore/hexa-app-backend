@@ -13,7 +13,6 @@ function loadEnv () {
 if (process.env.NODE_ENV !== 'production') {
   loadEnv() // on production use your version control env variable
 }
-console.log(process.env)
 
 // setup the default config
 const defaultConfig = {

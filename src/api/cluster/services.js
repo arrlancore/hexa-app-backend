@@ -37,12 +37,12 @@ function list (query) {
     if (query._id) {
       condition._id = query._id
     }
-    if (query.title) {
+    if (query.name) {
       condition.title = {
         $regex: new RegExp(query.title)
       }
     }
-    if (query.content) {
+    if (query.description) {
       condition.content = {
         $regex: new RegExp(query.content)
       }
