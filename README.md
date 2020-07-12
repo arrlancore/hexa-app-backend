@@ -1,4 +1,4 @@
-# Hex the budget app (frontend)
+# Hex the budget app (backend)
 
 ## Technology stack
 
