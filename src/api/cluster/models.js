@@ -10,7 +10,7 @@ const ClusterSchema = new Schema({
     trim: true,
     required: [true, 'Cluster name is required']
   },
-  descripion: {
+  description: {
     type: String,
     trim: true
   },
