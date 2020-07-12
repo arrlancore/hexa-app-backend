@@ -8,6 +8,7 @@
   "dependencies": {
     "acl": "^0.4.11",
     "babel-cli": "^6.26.0",
+    "babel-preset-node6": "^11.0.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "bunyan-express-serializer": "^1.0.0",
