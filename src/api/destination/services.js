@@ -81,7 +81,7 @@ function list (query) {
 
 function update (id, data) {
   try {
-    if (id) {
+    if (!data.isNew) {
       return Destination.updateOne({ _id: id }, { $set: data })
     }
     const newEntry = new Destination(data)
