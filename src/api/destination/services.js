@@ -81,7 +81,11 @@ function list (query) {
 
 function update (id, data) {
   try {
-    return Destination.updateOne({ _id: id }, { $set: data })
+    if (id) {
+      return Destination.updateOne({ _id: id }, { $set: data })
+    }
+    const newEntry = new Destination(data)
+    return newEntry.save()
   } catch (error) {
     throw new Error(error)
   }
