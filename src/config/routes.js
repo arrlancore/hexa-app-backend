@@ -1,8 +1,8 @@
 'use strict'
 
 import aclStore from '../helper/acl-store'
+import config from './config'
 import { Router } from 'express'
-import packageJson from '../../package.json'
 const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 
@@ -20,7 +20,7 @@ export default (app) => {
    */
   app.get(API, async (req, res) => {
     await setTimeout(async () => {
-      res.json({ version: await packageJson.version })
+      res.json({ version: "1.1" })
     }, 100)
   })
 
@@ -32,7 +32,6 @@ export default (app) => {
     pathModule = [...pathModule, './src/api/' + directoryName + '/index.js']
     app.use(API, module.default(Router()))
   }
-  console.log(pathModule)
   const options = {
     definition: {
       openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')
@@ -51,7 +50,7 @@ export default (app) => {
     },
     servers: [
       {
-        url: 'http://localhost:3030/api',
+        url: `http://localhost:${config.apiPort}/api`,
         description: 'Development server api'
       }
     ],

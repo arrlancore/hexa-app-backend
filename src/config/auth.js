@@ -7,20 +7,29 @@ import config from './config'
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 
-const authenticate = () => (req, res, next, authorized) => {
-  passport.authenticate('jwt', function (err, user) {
-    if (err) {
-      return res.status(400).send({
-        message: err.message
-      })
-    }
-    if (!user) {
-      return res.status(401).send({
-        message: 'Unauthorized, please login first!'
-      })
-    }
-    authorized()
-  })(req, res, next)
+// const authenticate = () => (req, res, next, authorized) => {
+//   passport.authenticate('jwt', function (err, user) {
+//     if (err) {
+//       return res.status(400).send({
+//         message: err.message
+//       })
+//     }
+//     if (!user) {
+//       return res.status(401).send({
+//         message: 'Unauthorized, please login first!'
+//       })
+//     }
+//     authorized()
+//   })(req, res, next)
+// }
+
+const authenticate = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).send({
+      message: 'Unauthorized, please login first!'
+    })
+  }
+  next()
 }
 
 export default {
