@@ -1,6 +1,7 @@
 'use strict'
 
 import Destination from './models'
+import Cluster from '../cluster/models'
 const ObjectId = require('mongoose').Types.ObjectId
 
 export default {
@@ -111,26 +112,32 @@ function listByCluster (clusterId) {
   }
 }
 
-function fromListToClusterNode (list=[]) {
-  const cluster = [...list][0].cluster
-  const nodes = list.reduce((acc, data) => {
-    const currentData = Object.assign({}, data)
-    const borders = data.nearest.reduce((accBorders, nearItem) => {
-      accBorders[nearItem.nearestKey] = Object.assign({}, nearItem)
-      accBorders[nearItem.nearestKey]['name'] = nearItem.destination
-      accBorders[nearItem.nearestKey]['destination'] = undefined
-      accBorders[nearItem.nearestKey]['_id'] = undefined
-      accBorders[nearItem.nearestKey]['nearestKey'] = undefined
-      return accBorders
+async function fromListToClusterNode (list=[], id) {
+  if (list[0]) {
+    const cluster = [...list][0].cluster
+    const nodes = list.reduce((acc, data) => {
+      const currentData = Object.assign({}, data)
+      const borders = data.nearest.reduce((accBorders, nearItem) => {
+        accBorders[nearItem.nearestKey] = Object.assign({}, nearItem)
+        accBorders[nearItem.nearestKey]['name'] = nearItem.destination
+        accBorders[nearItem.nearestKey]['destination'] = undefined
+        accBorders[nearItem.nearestKey]['_id'] = undefined
+        accBorders[nearItem.nearestKey]['nearestKey'] = undefined
+        return accBorders
+      }, {})
+      currentData.borders = borders
+      currentData.nearest = undefined
+      currentData.cluster = undefined
+      // add to dictionary
+      acc[data._id] = currentData
+      return acc
     }, {})
-    currentData.borders = borders
-    currentData.nearest = undefined
-    currentData.cluster = undefined
-    // add to dictionary
-    acc[data._id] = currentData
-    return acc
-  }, {})
-  return { cluster, nodes, count: list.length }
+    return { cluster, nodes, count: list.length }
+  }
+
+  const cluster = await Cluster.findOne({ _id: new ObjectId(id) })
+    .populate('createdBy', 'fullName')
+  return { cluster, nodes: {}, count: list.length }
 }
 
 function fromClusterNodeToList (nodes){

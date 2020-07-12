@@ -81,7 +81,7 @@ async function getDestinationCluster (req, res) {
     const { clusterId } = req.params
     const viewData = await service.listByCluster(clusterId)
     const jsonResult = JSON.stringify(viewData)
-    if (viewData) return res.send(service.fromListToClusterNode(JSON.parse(jsonResult)))
+    if (viewData) return res.send(await service.fromListToClusterNode(JSON.parse(jsonResult), clusterId))
     res.status(404).send({ message: 'Data not found' })
   } catch (error) {
     res.status(400).send(res.setError(error))
