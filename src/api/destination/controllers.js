@@ -90,11 +90,12 @@ async function getDestinationCluster (req, res) {
 
 async function updateDestinationCluster (req, res) {
   try {
-    const list = req.body
+    const list = service.fromClusterNodeToList(req.body)
     const updates = []
+
     for (let i=0; i< list.length; i++) {
       const data = list[i]
-      const result = await service.update(data.id, data)
+      const result = await service.update(data._id, data)
       updates.push(result)
     }
     if (updates[0]) return res.send({updates, message: moduleName + ' in cluster has been successfully updated' })

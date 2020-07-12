@@ -10,7 +10,8 @@ export default {
   remove,
   list,
   listByCluster,
-  fromListToClusterNode
+  fromListToClusterNode,
+  fromClusterNodeToList
 }
 
 function create (data) {
@@ -126,4 +127,19 @@ function fromListToClusterNode (list=[]) {
     return acc
   }, {})
   return { cluster, nodes, count: list.length }
+}
+
+function fromClusterNodeToList (nodes){
+  return Object.values(nodes).map(item => {
+    const data = {...item}
+    data.nearest = Object.entries(item.borders).map(([key, property]) => {
+      const itemNearest = {...property}
+      itemNearest['nearestKey'] = Number(key)
+      itemNearest['destination'] = property.name
+      itemNearest['name'] = undefined
+      return itemNearest
+    })
+    data.borders = undefined
+    return data
+  })
 }
