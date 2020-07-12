@@ -11,11 +11,11 @@
 - [MongoDB]("https://docs.mongodb.com/manual/installation/")
 
 ## Getting Started
-git clone https://github.com/arrlancore/hexa-app-backend.git
-cd hexa-app-backend
-npm install
-npm run dev (Development)
-npm run build && npm run start:prod (Production)
+- `git clone https://github.com/arrlancore/hexa-app-backend.git`
+- `cd hexa-app-backend`
+- `npm install`
+- `npm run dev` (Development)
+- `npm run build && npm run start:prod` (Production)
 
 The build result will be on `/dist` directory
 
